@@ -6,20 +6,42 @@ import Link from 'next/link'
 import Input from '@/InputControls/Input'
 import Select from '@/InputControls/Select'
 import Textarea from '@/InputControls/Textarea'
-import { handleFiledValidation,handleFormValidation } from '@/validations/appValidations'
+import {toast} from "react-toastify"
+import { handleFiledValidation,handleFormValidation,formReset } from '@/validations/appValidations'
+import axios from 'axios'
+import { appStore } from '@/store/appStore'
+import { Api } from '@/common/Api'
 
 const Register =()=> {
   const [inputControls,setInputContorls]=useState(configuration)
   const fnChange=(eve)=>{
         setInputContorls(handleFiledValidation(eve,inputControls))
   }
-  const handleRegister=()=>{
-    const[isFormInvalid,clonedInputControls,dataObj]= handleFormValidation(inputControls)
+  const handleRegister= async ()=>{
+    try { const[isFormInvalid,clonedInputControls,dataObj]= handleFormValidation(inputControls)
     if(isFormInvalid){
            setInputContorls(clonedInputControls)
            return;
         }
-        alert('sending Request')
+        appStore.dispatch({type:"LOADER", payload:true})
+       const res =await Api.fnSendPostReq("/std/reg-std",{data:dataObj})
+        const {acknowledged,insertedId}=res?.data
+    if(acknowledged && insertedId ){
+      toast.success("Sucessfully Inserted")
+              setInputContorls(formReset(inputControls))
+    }
+    else{
+      toast.error("Not Inserted Try Again")
+    }
+      }
+      catch(ex){
+            console.error("register", ex)
+            toast.error("Something went Wrong")
+      }
+      finally{
+        appStore.dispatch({type:"LOADER", payload:false})
+
+      }
   }
   const prepareInputControls=(tag,obj)=>{
     switch(tag){
@@ -38,9 +60,9 @@ const Register =()=> {
     <div className='container-fluid'>
         <h2 className='text-center my-3'>Register</h2>
         {
-            inputControls?.map((obj)=>{
+            inputControls?.map((obj,index)=>{
               const {lbl,errorMessage,tag}=obj;
-                return <div className='row mb-3'>
+                return <div key={`div_${index}`} className='row mb-3'>
                 <div className='col-sm-5 text-end'>
                     <b>{lbl}:</b>
                     </div>

@@ -67,7 +67,7 @@
                   "Badminton",
                   "FootBall"
                           ],
-      "values":["cric","fb","bad"],
+      "values":["cric","bad","fb"],
        "value":"",
        "criteria":[
          "Required"

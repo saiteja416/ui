@@ -1,22 +1,22 @@
 "use client"
 import React,{ Fragment } from 'react'
 
-const Input  = ({type,handleChange,model,values,options}) => {
+const Input  = ({type,handleChange,model,values,options,value}) => {
   switch(type){
     case "text":
     case "password":
     case "date":
       return (
         <Fragment>
-          <input className='form-control' name={model} onChange={handleChange} type={type} />
+          <input className='form-control' name={model} onChange={handleChange} type={type} value={value} />
         </Fragment>
       )
       case "radio":
         return (
           <Fragment>
             {
-              options.map((val)=>{
-                  return  <> <input className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
+              options.map((val,ind)=>{
+                  return  <> <input  checked={value===values[ind]} value={values[ind]} className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
               })
             }
           
@@ -27,8 +27,8 @@ const Input  = ({type,handleChange,model,values,options}) => {
           return (
            <Fragment>
             {
-              options.map((val)=>{
-                  return  <> <input className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
+              options.map((val,ind)=>{
+                  return  <> <input checked={value.split(",").includes(values[ind])} value={values[ind]} className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
               })
             }
           
