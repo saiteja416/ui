@@ -1,9 +1,9 @@
 import { init } from "@/utils/init";
 
-export const appReducer = (state=init,action)=>{
-    switch(action.type){
+export const appReducer = (state = init,action)=>{
+    switch (action.type){
         case 'AUTH':
-            return{
+            return {
                 ...state,
                 isLoggedIn: action.payload
             }

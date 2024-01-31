@@ -8,7 +8,6 @@ import Select from '@/InputControls/Select'
 import Textarea from '@/InputControls/Textarea'
 import {toast} from "react-toastify"
 import { handleFiledValidation,handleFormValidation,formReset } from '@/validations/appValidations'
-import axios from 'axios'
 import { appStore } from '@/store/appStore'
 import { Api } from '@/common/Api'
 
@@ -24,7 +23,7 @@ const Register =()=> {
            return;
         }
         appStore.dispatch({type:"LOADER", payload:true})
-       const res =await Api.fnSendPostReq("/std/reg-std",{data:dataObj})
+       const res =await Api.fnSendPostReq("std/reg-std",{data:dataObj})
         const {acknowledged,insertedId}=res?.data
     if(acknowledged && insertedId ){
       toast.success("Sucessfully Inserted")

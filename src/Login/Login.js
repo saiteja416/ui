@@ -26,9 +26,10 @@ const handleLogin= async ()=>{
       dispatch({type:"LOADER", payload: true})
       const res = await Api.fnSendPostReq("std/login", {data: dataObj})
       if(res?.data?.length){
-        const {uid}=res?.data[0]
+        const {uid,token,_id}=res?.data[0]
               dispatch({type:"AUTH", payload: true})
-              Cookies.setItem("uid",uid)
+              Cookies.setItem("token", token)
+              Cookies.setItem("id", _id)
       }
       else{
          toast.error("Please check entered user id or password")
