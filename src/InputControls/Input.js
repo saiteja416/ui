@@ -16,7 +16,7 @@ const Input  = ({type,handleChange,model,values,options,value,isReadOnly}) => {
           <Fragment>
             {
               options.map((val,ind)=>{
-                  return  <> <input  checked={value===values[ind]} value={values[ind]} className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
+                  return  <> <input key={`rd_${ind}`} checked={value===values[ind]} value={values[ind]} className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
               })
             }
           
@@ -24,11 +24,12 @@ const Input  = ({type,handleChange,model,values,options,value,isReadOnly}) => {
         )
 
         case "checkbox":
+          const checkedArr = value.split(',')
           return (
            <Fragment>
             {
               options.map((val,ind)=>{
-                  return  <> <input checked={value.split(",").includes(values[ind])} value={values[ind]} className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
+                  return  <> <input key={`chk_${ind}`} checked={checkedArr.includes(values[ind])} value={values[ind]} className="ms-3" name={model} onChange={handleChange} type={type} />{val}</>
               })
             }
           
